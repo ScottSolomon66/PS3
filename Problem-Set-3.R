@@ -60,26 +60,57 @@ random_door_selector<-function(x){
 ##good luck
 play_game.door(random_door_selector())
 
-
+##door_creator
 ##this function will take an integer from 1 to 3 and make it class door
+##first it checks all of the conditions necessary to make an object class door
+
 door_creator<-function(x){
+  #checking to see if the number is between 1 and 3
   if (x>3 | x<1){
     out_of_range_message<-"This number is not between 1 and 3"
     return(out_of_range_message)
   }
+  #checking to see if the object is length 1
   if (length(x)!=1){
     wrong_length_message<-"The object must be of length 1"
     return(wrong_length_message)
   }
+  #checking to see if the object is an integer
   if (x%%1 != 0){
     not_an_integer_message<-"This object is not an integer"
     return(not_an_integer_message)
   }
+  #if it passes the three tests, it turns it into class door
   class(x)<-"door"
   return(x)
 }
 
-play_game_input_non_door<-function(x){
-  new_door<-door_creator(x)
-  play_game.door(new_door)
-}
+setClass(Class = "door", 
+         slots = c(which_door = "numeric"), 
+         prototype = prototype(which_door = c(sample(1:3,1)))
+)
+
+setValidity("door", function(object){
+  if (!(object@which_door %in% c(1:3))){
+    stop("This number is not an integer between 1 and 3")
+  }})
+
+
+setGeneric("play_game", function(x){
+  standardGeneric("play_game")
+})
+
+setMethod("play_game", signature = "door", definition = function(x){
+  random_number<-sample(1,1:3) #generating the random integer from 1 to 3
+  if (random_number == x@which_door){
+    message<-"You won a car!"
+    return(message)
+  }else{
+    message<-"You chose a goat =(" #very sad
+    return(message)
+}}
+  )
+
+test_door<-new("door", which_door = 1)
+
+play_game(test_door)
