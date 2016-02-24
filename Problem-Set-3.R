@@ -84,33 +84,3 @@ door_creator<-function(x){
   class(x)<-"door"
   return(x)
 }
-
-setClass(Class = "door", 
-         slots = c(which_door = "numeric"), 
-         prototype = prototype(which_door = c(sample(1:3,1)))
-)
-
-setValidity("door", function(object){
-  if (!(object@which_door %in% c(1:3))){
-    stop("This number is not an integer between 1 and 3")
-  }})
-
-
-setGeneric("play_game", function(x){
-  standardGeneric("play_game")
-})
-
-setMethod("play_game", signature = "door", definition = function(x){
-  random_number<-sample(1,1:3) #generating the random integer from 1 to 3
-  if (random_number == x@which_door){
-    message<-"You won a car!"
-    return(message)
-  }else{
-    message<-"You chose a goat =(" #very sad
-    return(message)
-}}
-  )
-
-test_door<-new("door", which_door = 1)
-
-play_game(test_door)
