@@ -84,3 +84,14 @@ door_creator<-function(x){
   class(x)<-"door"
   return(x)
 }
+
+##play_game_enter_integer
+##this function allows you to enter an integer, not of class door
+##then it checks, using door_creater if it fits the paramaters for door
+##if it does, it turns it into a door, then completes the play_game function
+
+play_game_enter_integer<-function(x){
+  door_choice<-door_creator(x)
+  play_game.door(door_choice)
+}
+
